@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("library-automation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ee8e65317734385077f7ab169af9c0dc6addcc0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1ef213b24180f0a7338a25f57a3894839ff2ae03")]
 [assembly: System.Reflection.AssemblyProductAttribute("library-automation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("library-automation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
