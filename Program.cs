@@ -1,14 +1,8 @@
-using library_automation;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add Database Connectivity
-builder.Services.AddDbContext<dbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
