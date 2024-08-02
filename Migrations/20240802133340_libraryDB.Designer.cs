@@ -12,8 +12,8 @@ using library_automation;
 namespace library_automation.Migrations
 {
     [DbContext(typeof(dbContext))]
-    [Migration("20240731202458_LibraryDB")]
-    partial class LibraryDB
+    [Migration("20240802133340_libraryDB")]
+    partial class libraryDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -89,7 +89,10 @@ namespace library_automation.Migrations
             modelBuilder.Entity("library_automation.Models.Book", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
@@ -120,7 +123,7 @@ namespace library_automation.Migrations
                         {
                             Id = 1,
                             AuthorId = 1,
-                            Genre = "Novel",
+                            Genre = "Classic",
                             PublicationYear = new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Publisher = "DoguBatı",
                             Title = "Crime and Punishment"
@@ -164,7 +167,7 @@ namespace library_automation.Migrations
                         new
                         {
                             Id = 6,
-                            AuthorId = 6,
+                            AuthorId = 5,
                             Genre = "Coming of Age",
                             PublicationYear = new DateTime(2014, 4, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Publisher = "Simon & Schuster",
@@ -193,6 +196,9 @@ namespace library_automation.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BookId")
+                        .IsUnique();
 
                     b.HasIndex("MemberId");
 
@@ -264,24 +270,24 @@ namespace library_automation.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("library_automation.Models.Loan", "Loan")
-                        .WithOne("Book")
-                        .HasForeignKey("library_automation.Models.Book", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
-
-                    b.Navigation("Loan");
                 });
 
             modelBuilder.Entity("library_automation.Models.Loan", b =>
                 {
+                    b.HasOne("library_automation.Models.Book", "Book")
+                        .WithOne("Loan")
+                        .HasForeignKey("library_automation.Models.Loan", "BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("library_automation.Models.Member", "Member")
                         .WithMany("Loans")
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Book");
 
                     b.Navigation("Member");
                 });
@@ -291,9 +297,10 @@ namespace library_automation.Migrations
                     b.Navigation("Books");
                 });
 
-            modelBuilder.Entity("library_automation.Models.Loan", b =>
+            modelBuilder.Entity("library_automation.Models.Book", b =>
                 {
-                    b.Navigation("Book");
+                    b.Navigation("Loan")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("library_automation.Models.Member", b =>
