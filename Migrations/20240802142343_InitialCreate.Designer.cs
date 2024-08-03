@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using library_automation;
+using library_automation.Data;
 
 #nullable disable
 
 namespace library_automation.Migrations
 {
     [DbContext(typeof(dbContext))]
-    [Migration("20240802133340_libraryDB")]
-    partial class libraryDB
+    [Migration("20240802142343_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
