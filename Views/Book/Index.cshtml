@@ -1,0 +1,34 @@
+﻿@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<library_automation.Models.Book>
+@{
+    ViewData["Title"] = "Books";
+}
+<div class="container">
+    <div class="row">
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column mb-4">
+                <div class="d-flex justify-content-center">
+                    <h5 class="">@Model[i].Title</h5>
+                </div>
+                <div class="mt-auto">
+                    <div class="d-flex justify-content-center">
+                        <div class="row w-100">
+                            <div class="col-6 text-center">
+                                @Model[i].Genre
+                            </div>
+                            <div class="col-6 text-center">
+                                @Model[i].Publisher
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center p-3">
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model[i].Id">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
