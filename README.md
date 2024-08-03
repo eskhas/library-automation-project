@@ -1,3 +1,4 @@
+![GitHub Release](https://img.shields.io/github/v/release/eskhas/library-automation-project?color=%2000ff00)
 # Library Automation Project
   The purpose of this project is to help library personnel to loan books to the people.
 ### To Run The Application
