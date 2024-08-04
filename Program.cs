@@ -1,14 +1,23 @@
 using library_automation.Data;
 using Microsoft.EntityFrameworkCore;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// Load environment variables from .env file
+Env.Load();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Retrieve user and password from environment variables
+var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = builder.Configuration.GetConnectionString("Default")
+    .Replace("{DB_USER}", dbUser)
+    .Replace("{DB_PASSWORD}", dbPassword);
 // Add Database Connectivity
 builder.Services.AddDbContext<dbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+options.UseSqlServer(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
