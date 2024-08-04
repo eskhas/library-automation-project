@@ -9,4 +9,14 @@
   CREATE DATABASE libraryDB;
   GO;
 ```
+* Apply these commands if you are using windows,
+```
+  dotnet ef migrations add InitialCreate
+  dotnet ef database update
+```
+* If you are using linux,
+```
+  dotnet-ef migrations add InitialCreate
+  dotnet-ef database update
+```
 * Enjoy!
