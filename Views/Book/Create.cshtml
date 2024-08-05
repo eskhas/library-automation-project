@@ -20,6 +20,9 @@
                 <label asp-for="AuthorId" class="control-label"></label>
                 <select asp-for="AuthorId" class="form-control" asp-items="ViewBag.AuthorId"></select>
                 <span asp-validation-for="AuthorId" class="text-danger"></span>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#createAuthorModal" onclick="console.log('Add New Author clicked');">Add New
+                    Author</button>
             </div>
             <div class="form-group">
                 <label asp-for="Publisher" class="control-label"></label>
@@ -46,3 +49,6 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+<!-- Include the Create Author Partial -->
+@await Html.PartialAsync("_CreateAuthorPartial")

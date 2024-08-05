@@ -132,6 +132,10 @@ namespace library_automation.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var author = await _context.Authors.FindAsync(id);
+            if (author == null)
+            {
+                return NotFound();
+            }
             _context.Authors.Remove(author);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -140,6 +144,18 @@ namespace library_automation.Controllers
         private bool AuthorExists(int id)
         {
             return _context.Authors.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFromBook([Bind("Id,FirstName,LastName,Phone")] Author author)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(author);
+                await _context.SaveChangesAsync();
+                return Json(new { id = author.Id, fullName = $"{author.FirstName} {author.LastName}" });
+            }
+            return BadRequest(ModelState);
         }
     }
 }
