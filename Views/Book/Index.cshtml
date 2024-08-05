@@ -1,34 +1,59 @@
-﻿@*
-For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model List<library_automation.Models.Book>
+﻿@model IEnumerable<library_automation.Models.Book>
+
 @{
     ViewData["Title"] = "Books";
 }
-<div class="container">
-    <div class="row">
-        @for (int i = 0; i < Model.Count; i++)
+
+<h1>Books</h1>
+
+<a class="btn btn-primary" asp-action="Create">Create New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Publisher)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublicationYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Genre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column mb-4">
-                <div class="d-flex justify-content-center">
-                    <h5 class="">@Model[i].Title</h5>
-                </div>
-                <div class="mt-auto">
-                    <div class="d-flex justify-content-center">
-                        <div class="row w-100">
-                            <div class="col-6 text-center">
-                                @Model[i].Genre
-                            </div>
-                            <div class="col-6 text-center">
-                                @Model[i].Publisher
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center p-3">
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model[i].Id">View Details</a>
-                    </div>
-                </div>
-            </div>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Publisher)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
         }
-    </div>
-</div>
+    </tbody>
+</table>
