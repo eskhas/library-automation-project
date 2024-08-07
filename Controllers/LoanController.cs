@@ -154,6 +154,21 @@ namespace library_automation.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> MarkAsReturned(int id)
+        {
+            var loan = await _context.Loans.FindAsync(id);
+            if (loan == null)
+            {
+                return NotFound();
+            }
+
+            loan.IsReturned = true;
+            _context.Update(loan);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool LoanExists(int id)
         {
             return _context.Loans.Any(e => e.Id == id);

@@ -11,7 +11,9 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <input type="hidden" asp-for="IsReturned" />
+            </div>
             <div class="form-group">
                 <label asp-for="MemberId" class="control-label">Member</label>
                 <select asp-for="MemberId" class="form-control" asp-items="ViewBag.MemberId"></select>
