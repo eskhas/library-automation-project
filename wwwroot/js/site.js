@@ -15,8 +15,8 @@ $(document).ready(function() {
             success: function(result) {
                 $('#createAuthorModal').modal('hide');
                 $('#createAuthorForm')[0].reset();
-                $('#AuthorId').append('<option value="' + result.id + '">' + result.fullName + '</option>');
-                $('#AuthorId').val(result.id);
+                $('#Book_AuthorId').append('<option value="' + result.id + '">' + result.fullName + '</option>');
+                $('#Book_AuthorId').val(result.id).change();
             },
             error: function(xhr, status, error) {
                 alert('An error occurred while creating the author: ' + error);

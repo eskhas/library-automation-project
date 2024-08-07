@@ -8,38 +8,71 @@ namespace library_automation.Controllers
 {
     public class BookController : Controller
     {
-        // GET: BookController
-        public async Task<IActionResult> Index()
-        {
-            var books = from b in _context.Books
-                        select b;
-            return View(await books.ToListAsync());
-        }
         private readonly dbContext _context;
         public BookController(dbContext context)
         {
             _context = context;
         }
+        // GET: BookController
+        public async Task<IActionResult> Index()
+        {
+            var books = await _context.Books
+                .Include(b => b.Author)
+                .Select(b => new BookViewModel
+                {
+                    Id = b.Id,
+                    Title = b.Title,
+                    Author = $"{b.Author.FirstName} {b.Author.LastName}",
+                    Publisher = b.Publisher,
+                    PublicationYear = b.PublicationYear,
+                    Genre = b.Genre
+                })
+                .ToListAsync();
+            return View(books);
+        }
+        public async Task<IActionResult> Details(int? id)
+        {
+            var details = await _context.Books
+            .Include(a => a.Author)
+            .Select(b => new BookViewModel
+            {
+                Id = b.Id,
+                Title = b.Title,
+                Author = $"{b.Author.FirstName} {b.Author.LastName}",
+                Publisher = b.Publisher,
+                PublicationYear = b.PublicationYear,
+                Genre = b.Genre
+            })
+            .FirstOrDefaultAsync(x => x.Id == id);
+            return View(details);
+        }
         // GET: Book/Create
         public IActionResult Create()
         {
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName");
-            return View();
+            var bookAuthorViewModel = new BookAuthorViewModel();
+
+            var authorViewModel = _context.Authors.Select(b => new AuthorViewModel
+            {
+                Id = b.Id,
+                AuthorFullName = $"{b.FirstName} {b.LastName}",
+            });
+            ViewData["Author"] = new SelectList(authorViewModel, "Id", "AuthorFullName");
+            return View(bookAuthorViewModel);
         }
 
         // POST: Book/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AuthorId,Title,Publisher,PublicationYear,Genre")] Book book)
+        public async Task<IActionResult> Create([Bind("Book,Author")] BookAuthorViewModel bookAuthorViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(book);
+                _context.Add(bookAuthorViewModel.Book);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            return View(book);
+            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", bookAuthorViewModel.Book.AuthorId);
+            return View(bookAuthorViewModel);
         }
 
         // GET: Book/Edit/5
@@ -50,21 +83,37 @@ namespace library_automation.Controllers
                 return NotFound();
             }
 
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books
+                .Include(b => b.Author)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
             if (book == null)
             {
                 return NotFound();
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            return View(book);
+
+            var bookAuthorViewModel = new BookAuthorViewModel
+            {
+                Book = book
+            };
+
+            var authorViewModel = _context.Authors.Select(b => new AuthorViewModel
+            {
+                Id = b.Id,
+                AuthorFullName = $"{b.FirstName} {b.LastName}",
+            });
+
+            ViewData["Author"] = new SelectList(authorViewModel, "Id", "AuthorFullName", book.AuthorId);
+            return View(bookAuthorViewModel);
         }
+
 
         // POST: Book/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AuthorId,Title,Publisher,PublicationYear,Genre")] Book book)
+        public async Task<IActionResult> Edit(int id, [Bind("Book,Author")] BookAuthorViewModel viewModel)
         {
-            if (id != book.Id)
+            if (id != viewModel.Book.Id)
             {
                 return NotFound();
             }
@@ -73,12 +122,12 @@ namespace library_automation.Controllers
             {
                 try
                 {
-                    _context.Update(book);
+                    _context.Update(viewModel.Book);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BookExists(book.Id))
+                    if (!BookExists(viewModel.Book.Id))
                     {
                         return NotFound();
                     }
@@ -89,8 +138,13 @@ namespace library_automation.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AuthorId"] = new SelectList(_context.Authors, "Id", "FirstName", book.AuthorId);
-            return View(book);
+            var authorViewModel = _context.Authors.Select(b => new AuthorViewModel
+            {
+                Id = b.Id,
+                AuthorFullName = $"{b.FirstName} {b.LastName}",
+            });
+            ViewData["Author"] = new SelectList(authorViewModel, "Id", "AuthorFullName", viewModel.Book.AuthorId);
+            return View(viewModel);
         }
 
         // GET: Book/Delete/5

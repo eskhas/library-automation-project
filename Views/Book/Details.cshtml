@@ -1,28 +1,48 @@
-﻿@*
-For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model library_automation.Models.Book
+﻿@model library_automation.Models.BookViewModel
+
 @{
-    ViewData["Title"] = "Book Details";
+    ViewData["Title"] = "Details";
 }
-<div class="container">
-    <div class="col-12">
-        <div class="d-flex justify-content-center">
-            <h5 class="">@Model.Title</h5>
-        </div>
-        <div class="mt-auto">
-            <div class="d-flex justify-content-center">
-                Genre: @Model.Genre
-            </div>
-            <div class="d-flex justify-content-center">
-                Publisher: @Model.Publisher
-            </div>
-            <div class="d-flex justify-content-center">
-                Author: @Model.Author.FirstName @Model.Author.LastName
-            </div>
-            <div class="d-flex justify-content-center p-3">
-                <a class="btn btn-info" asp-action="Index">Return</a>
-            </div>
-        </div>
-    </div>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Book</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Publisher)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Publisher)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PublicationYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PublicationYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

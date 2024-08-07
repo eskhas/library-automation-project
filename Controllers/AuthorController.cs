@@ -147,13 +147,14 @@ namespace library_automation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFromBook([Bind("Id,FirstName,LastName,Phone")] Author author)
+        public async Task<IActionResult> CreateFromBook([Bind("FirstName,LastName,Phone")] Author author)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(author);
                 await _context.SaveChangesAsync();
-                return Json(new { id = author.Id, fullName = $"{author.FirstName} {author.LastName}" });
+                var fullName = $"{author.FirstName} {author.LastName}";
+                return Json(new { id = author.Id, fullName });
             }
             return BadRequest(ModelState);
         }

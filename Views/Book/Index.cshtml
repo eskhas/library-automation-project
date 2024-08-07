@@ -1,4 +1,4 @@
-﻿@model IEnumerable<library_automation.Models.Book>
+﻿@model IEnumerable<library_automation.Models.BookViewModel>
 
 @{
     ViewData["Title"] = "Books";
@@ -15,7 +15,7 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Author.FirstName)
+                @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Publisher)
@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Author.FirstName)
+                    @Html.DisplayFor(modelItem => item.Author)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Publisher)
