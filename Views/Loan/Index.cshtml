@@ -1,9 +1,59 @@
-﻿@{
+﻿@model IEnumerable<library_automation.Models.Loan>
+
+@{
     ViewData["Title"] = "Loans";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Loans</h1>
 
 <p>
-    Coming soon!
+    <a class="btn btn-primary" asp-action="Create">Create New Loan</a>
 </p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Member</th>
+            <th>Book</th>
+            <th>Loan Date</th>
+            <th>Return Date</th>
+            <th>Is Returned</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Member.Name</td>
+                <td>@item.Book.Title</td>
+                <td>@item.LoanDate.ToShortDateString()</td>
+                <td>@item.ReturnDate.ToShortDateString()</td>
+                <td>
+                    @if (item.IsReturned)
+                    {
+                        <span class="text-success">Returned</span>
+                    }
+                    else
+                    {
+                        <span class="text-danger">Not Returned</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-secondary btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    @if (!item.IsReturned)
+                    {
+                        <a class="btn btn-success btn-sm" asp-action="MarkAsReturned" asp-route-id="@item.Id">Mark as
+                            Returned</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-secondary btn-sm disabled">Marked as
+                            Returned</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

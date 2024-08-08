@@ -9,4 +9,5 @@ public class Loan
     public Book? Book { get; set; }
     public required DateTime LoanDate { get; set; }
     public required DateTime ReturnDate { get; set; }
+    public bool IsReturned { get; set; } = false;
 }
