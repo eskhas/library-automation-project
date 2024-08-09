@@ -1,7 +1,16 @@
 ![GitHub Release](https://img.shields.io/github/v/release/eskhas/library-automation-project?color=%2000ff00)
+
 # Library Automation Project
-  The purpose of this project is to help library personnel to loan books to the people.
+
+The purpose of this project is to help library personnel to loan books to the people.
+
+### Latest Update
+
+- People can loan books
+- Some verifying for deletion
+
 ### Some Screenshots of the Application
+
 Home Page
 
 ![image](https://github.com/user-attachments/assets/427bc755-44e5-47b6-a829-8d173163dcac)
@@ -27,21 +36,24 @@ Books Page
   </table>
 </div>
 
-
-
-
 ### To Run The Application
+
 1. Create a file named "**.env**" in your project directory
 
    > your-path-to-the-project/library-automation/.env
+
 2. Copy and paste the text below and edit those values accordingly.
+
 ```
 DB_USER=<your-sqlserver-username>
 DB_PASSWORD=<your-sqlserver-password>
 ```
+
 3. Apply these commands to create the tables in the database automatically,
+
 ```
   dotnet ef migrations add InitialCreate
   dotnet ef database update
 ```
+
 4. Enjoy!
