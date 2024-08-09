@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using library_automation.Data;
 using library_automation.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace library_automation.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MemberController : Controller
     {
         private readonly dbContext _context;

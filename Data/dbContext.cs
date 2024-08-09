@@ -1,8 +1,10 @@
 ﻿using library_automation.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace library_automation.Data
 {
-    public class dbContext : DbContext
+    public class dbContext : IdentityDbContext<IdentityUser>
     {
         public dbContext(DbContextOptions<dbContext> options) : base(options) { }
         public DbSet<Book> Books { get; set; }
