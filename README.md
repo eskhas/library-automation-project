@@ -6,18 +6,25 @@ The purpose of this project is to help library personnel to loan books to the pe
 
 ### Latest Update
 
-- People can loan books
-- Some verifying for deletion
+- The users can only see the home page
+- Admin is created for logging in to loan books.
+- Home page refurbished
+- Availability of a book can be seen from home page
 
 ### Some Screenshots of the Application
 
 Home Page
 
-![image](https://github.com/user-attachments/assets/427bc755-44e5-47b6-a829-8d173163dcac)
+![image](https://github.com/user-attachments/assets/c23ca082-ac05-4238-99bc-a415e06e2d11)
+
 
 Books Page
 
 ![image](https://github.com/user-attachments/assets/3fb77aaa-e842-4f28-ac62-34377fa7182d)
+
+Loans Page
+
+![image](https://github.com/user-attachments/assets/5e1f4495-1130-4283-856c-c123978c4ff8)
 
 <div align="center">
   <table>
@@ -52,8 +59,12 @@ DB_PASSWORD=<your-sqlserver-password>
 3. Apply these commands to create the tables in the database automatically,
 
 ```
-  dotnet ef migrations add InitialCreate
+  dotnet ef migrations add FirstMigration
   dotnet ef database update
 ```
-
+3a. If you already have migrated before, give it a new migration name and do the same for rest.
+```
+  dotnet ef migrations add SecondMigration
+  dotnet ef database update
+```
 4. Enjoy!
