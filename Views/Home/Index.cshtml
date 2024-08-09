@@ -1,7 +1,7 @@
 ﻿@*
 For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<library_automation.Models.Book>
+@model List<library_automation.Models.BookAvailabilityViewModel>
 @{
     ViewData["Title"] = "Books";
 }
@@ -9,23 +9,34 @@ For more information on enabling MVC for empty projects, visit https://go.micros
     <div class="row">
         @for (int i = 0; i < Model.Count; i++)
         {
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex flex-column mb-4">
-                <div class="d-flex justify-content-center">
-                    <h5 class="">@Model[i].Title</h5>
-                </div>
-                <div class="mt-auto">
-                    <div class="d-flex justify-content-center">
-                        <div class="row w-100">
-                            <div class="col-6 text-center">
-                                @Model[i].Genre
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm border">
+                    <div class="card-body p-1 d-flex flex-column">
+                        <h5 class="card-title text-center mb-3">@Model[i].Title</h5>
+                        <div class="text-center mb-3">
+                            <div class="mb-2">
+                                <strong>Genre:</strong> @Model[i].Genre
                             </div>
-                            <div class="col-6 text-center">
-                                @Model[i].Publisher
+                            <div>
+                                <strong>Publisher:</strong> @Model[i].Publisher
                             </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-center p-3">
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@Model[i].Id">View Details</a>
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-center mb-2">
+                                <div class="w-75">
+                                    <a class="btn btn-info w-100" asp-action="Details" asp-route-id="@Model[i].Id">View
+                                        Details</a>
+                                    @if (@Model[i].IsAvailable)
+                                    {
+                                        <span class="badge bg-success w-100">Available</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger w-100">Not Available</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

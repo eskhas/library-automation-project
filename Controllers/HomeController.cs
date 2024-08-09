@@ -19,9 +19,20 @@ namespace library_automation.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var books = from b in _context.Books
-                        select b;
-            return View(await books.ToListAsync());
+            var books = await _context.Books
+                                      .Include(b => b.Author) // Assuming you have a relationship between Book and Author
+                                      .ToListAsync();
+
+            var bookAvailability = books.Select(book => new BookAvailabilityViewModel
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Genre = book.Genre,
+                Publisher = book.Publisher != null ? book.Publisher : "Unknown Publisher",
+                IsAvailable = !_context.Loans.Any(loan => loan.BookId == book.Id && !loan.IsReturned)
+            }).ToList();
+
+            return View(bookAvailability);
         }
         public async Task<IActionResult> Details(int? id)
         {
