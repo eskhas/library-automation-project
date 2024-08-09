@@ -169,12 +169,17 @@ namespace library_automation.Controllers
         // POST: Book/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = await _context.Books.Include(b => b.Loan).FirstOrDefaultAsync(b => b.Id == id);
             if (book == null)
             {
                 return NotFound();
+            }
+            if (book.Loan != null && !book.Loan.IsReturned)
+            {
+                ModelState.AddModelError("", "Cannot delete book because it is currently loaned.");
+                return View(book);
             }
             _context.Books.Remove(book);
             await _context.SaveChangesAsync();

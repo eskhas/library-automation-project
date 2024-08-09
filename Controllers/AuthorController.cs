@@ -129,12 +129,17 @@ namespace library_automation.Controllers
         // POST: Author/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _context.Authors.Include(a => a.Books).FirstOrDefaultAsync(a => a.Id == id);
             if (author == null)
             {
                 return NotFound();
+            }
+            if (author.Books.Any())
+            {
+                ModelState.AddModelError("", "Unable to delete author due to existing books authored by them.");
+                return View(author);
             }
             _context.Authors.Remove(author);
             await _context.SaveChangesAsync();

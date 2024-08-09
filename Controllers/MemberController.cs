@@ -128,12 +128,17 @@ namespace library_automation.Controllers
         // POST: Member/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var member = await _context.Members.FindAsync(id);
+            var member = await _context.Members.Include(m => m.Loans).FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
                 return NotFound();
+            }
+            if (member.Loans.Any(loan => !loan.IsReturned))
+            {
+                ModelState.AddModelError("", "Cannot delete member because they have loaned books.");
+                return View(member);
             }
             _context.Members.Remove(member);
             await _context.SaveChangesAsync();
